@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, ArrowLeft, Truck, Shield, RefreshCw } from 'lucide-react';
@@ -94,6 +93,29 @@ const ProductDetails = () => {
   const { id } = useParams();
   const product = products.find(p => p.id === Number(id));
 
+  const addToCart = () => {
+    if (!product) return;
+    
+    const existingCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    
+    const existingItem = existingCart.find(item => item.id === product.id);
+    
+    let updatedCart;
+    if (existingItem) {
+      updatedCart = existingCart.map(item =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [...existingCart, { ...product, quantity: 1 }];
+    }
+    
+    localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+    
+    alert('Product added to cart!');
+  };
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -118,7 +140,6 @@ const ProductDetails = () => {
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Image */}
           <div className="bg-white rounded-xl p-8">
             <div className="aspect-square overflow-hidden rounded-lg">
               <img
@@ -129,7 +150,6 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Product Info */}
           <div className="space-y-8">
             <div>
               <div className="flex items-center gap-2 text-sm text-neutral-600 mb-2">
@@ -222,7 +242,10 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <button className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 rounded-lg transition-colors">
+            <button 
+              onClick={addToCart}
+              className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 rounded-lg transition-colors"
+            >
               Add to Cart
             </button>
           </div>
