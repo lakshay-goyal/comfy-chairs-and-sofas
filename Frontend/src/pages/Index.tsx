@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+// import 'dotenv/config'
 import { ArrowRight, Armchair, Sofa, Star, DollarSign, Truck } from 'lucide-react';
 
 const Index = () => {
@@ -14,26 +15,25 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch all data in parallel
+        const baseURL = "http://127.0.0.1:8000";
+        console.log(baseURL)
+  
         const [productsRes, categoriesRes, featuresRes, topProductsRes] = await Promise.all([
-          fetch('http://localhost:8000/api/data/products'),
-          fetch('http://localhost:8000/api/data/category'),
-          fetch('http://localhost:8000/api/data/features'),
-          fetch('http://localhost:8000/api/data/top_products')
+          fetch(`${baseURL}/api/products`),
+          fetch(`${baseURL}/api/data/category`),
+          fetch(`${baseURL}/api/features`),
+          fetch(`${baseURL}/api/data/top_products`)
         ]);
-
-        // Check if all responses are OK
+  
         if (!productsRes.ok || !categoriesRes.ok || !featuresRes.ok || !topProductsRes.ok) {
           throw new Error('Failed to fetch data');
         }
-
-        // Parse JSON data
+  
         const productsData = await productsRes.json();
         const categoriesData = await categoriesRes.json();
         const featuresData = await featuresRes.json();
         const topProductsData = await topProductsRes.json();
-
-        // Set state with fetched data
+  
         setProducts(productsData.products);
         setCategories(categoriesData.categories);
         setFeatures(featuresData.features);
@@ -44,9 +44,10 @@ const Index = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   // Hardcoded hero section data
   const heroSection = {
