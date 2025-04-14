@@ -82,8 +82,8 @@ const ProductDetails = () => {
   };
 
   const handlePreview = () => {
-    navigate(`/preview`);
-    // navigate(`/preview/${product.id}`);
+    // navigate(`/preview`);
+    navigate(`/preview/${product.id}`);
   };
 
   if (loading) {
@@ -226,7 +226,7 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Truck className="h-5 w-5 text-primary" />
-                <span className="text-neutral-600">Free delivery on orders over Rs. 5000</span>
+                <span className="text-neutral-600">Delivery Service for Bulk Orders</span>
               </div>
               <div className="flex items-center gap-3">
                 <Shield className="h-5 w-5 text-primary" />

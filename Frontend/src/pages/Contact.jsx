@@ -9,6 +9,8 @@ const Contact = () => {
     message: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setFormState({
@@ -17,17 +19,74 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would normally handle the form submission
-    // For demonstration, we're just showing a success message
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormState({ name: '', email: '', subject: '', message: '' });
-    }, 5000);
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setError(null);
+    
+  //   try {
+  //     // Replace with your actual backend URL
+  //     const response = await fetch('http://localhost:8000/api/contact/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(formState),
+  //     });
+      
+  //     if (!response.ok) {
+  //       throw new Error('Failed to submit form');
+  //     }
+      
+  //     setFormSubmitted(true);
+  //     setIsLoading(false);
+      
+  //     // Reset form after 5 seconds
+  //     setTimeout(() => {
+  //       setFormSubmitted(false);
+  //       setFormState({ name: '', email: '', subject: '', message: '' });
+  //     }, 5000);
+      
+  //   } catch (err) {
+  //     setError('There was an error sending your message. Please try again later.');
+  //     setIsLoading(false);
+  //     console.error('Error submitting form:', err);
+  //   }
+  // };
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/contact/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form');
+      }
+      
+      if (data.status === 'verification_sent') {
+        setFormSubmitted(true);
+        setFormState({ name: '', email: '', subject: '', message: '' });
+      }
+      
+    } catch (err) {
+      setError(err.message || 'There was an error sending your message. Please try again later.');
+      console.error('Error submitting form:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100 text-neutral-800">
       {/* Hero Section */}
@@ -104,8 +163,10 @@ const Contact = () => {
               {formSubmitted ? (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
                   <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-medium text-green-800">Message Sent!</h3>
-                  <p className="text-green-600 mt-2">Thank you for reaching out. We'll get back to you shortly.</p>
+                  <h3 className="text-xl font-medium text-green-800">Verification Email Sent!</h3>
+                  <p className="text-green-600 mt-2">
+                    Please check your email and click the verification link to complete your submission.
+                  </p>
                 </div>
               ) : (
                 <form className="space-y-6" onSubmit={handleSubmit}>
@@ -166,12 +227,26 @@ const Contact = () => {
                       required
                     />
                   </div>
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+                      {error}
+                    </div>
+                  )}
                   <button
                     type="submit"
-                    className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                    className={`flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors ${
+                      isLoading ? 'opacity-75 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isLoading}
                   >
-                    <Send className="h-5 w-5" />
-                    Send Message
+                    {isLoading ? (
+                      'Sending...'
+                    ) : (
+                      <>
+                        <Send className="h-5 w-5" />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               )}

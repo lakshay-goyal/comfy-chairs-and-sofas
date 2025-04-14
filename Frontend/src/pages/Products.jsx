@@ -11,9 +11,22 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [sortBy, setSortBy] = useState('newest');
   const [wishlist, setWishlist] = useState([]);
-  
+
   const categoryFilter = searchParams.get('category');
-  const categories = ['All', 'Sofa', 'Chair', 'Table', 'Bed', 'Lighting', 'Decor'];
+  const categories = [
+    'All', 
+    'Director Chair', 
+    'Executive Chairs', 
+    'Mesh Chairs', 
+    'Computer Chairs', 
+    'Visitor Chairs', 
+    'Restaurant Chair', 
+    'Lounge Chairs',
+    'Student Chairs', 
+    'Auditorium Chair', 
+    'Sofa Series', 
+    'Office Tables'
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,19 +69,19 @@ const Products = () => {
 
   const applyFilters = () => {
     let filtered = [...products];
-    
+
     // Apply category filter
     if (categoryFilter) {
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter(product =>
         product.category.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
-    
+
     // Apply price range filter
-    filtered = filtered.filter(product => 
+    filtered = filtered.filter(product =>
       product.price >= priceRange[0] && product.price <= priceRange[1]
     );
-    
+
     // Apply sorting
     switch (sortBy) {
       case 'price_low':
@@ -85,7 +98,7 @@ const Products = () => {
         // Assuming products are already sorted by newest
         break;
     }
-    
+
     return filtered;
   };
 
@@ -100,7 +113,7 @@ const Products = () => {
           <div className="h-4 bg-neutral-200 rounded w-full max-w-2xl mx-auto"></div>
           <div className="h-4 bg-neutral-200 rounded w-5/6 max-w-xl mx-auto mt-2"></div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[...Array(8)].map((_, index) => (
             <div key={index} className="bg-white rounded-xl shadow-sm overflow-hidden animate-pulse">
@@ -134,7 +147,7 @@ const Products = () => {
         </div>
         <h2 className="text-2xl font-bold mb-2">Oops! Something went wrong</h2>
         <p className="text-neutral-600 mb-4">{error}</p>
-        <button 
+        <button
           onClick={() => window.location.reload()}
           className="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-2 rounded-lg transition-colors"
         >
@@ -152,7 +165,7 @@ const Products = () => {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Discover Our Collection</h1>
             <p className="text-lg text-amber-100">
-              Thoughtfully designed furniture that brings comfort and style to your space. 
+              Thoughtfully designed furniture that brings comfort and style to your space.
               Explore handcrafted pieces that inspire.
             </p>
           </div>
@@ -166,21 +179,20 @@ const Products = () => {
             <button
               key={category}
               onClick={() => handleCategoryChange(category)}
-              className={`whitespace-nowrap px-6 py-2 mx-2 rounded-full text-sm font-medium transition-colors ${
-                (category === 'All' && !categoryFilter) || 
+              className={`whitespace-nowrap px-6 py-2 mx-2 rounded-full text-sm font-medium transition-colors ${(category === 'All' && !categoryFilter) ||
                 (categoryFilter && category.toLowerCase() === categoryFilter.toLowerCase())
-                  ? 'bg-amber-600 text-white shadow-md'
-                  : 'bg-white text-neutral-700 hover:bg-neutral-100'
-              }`}
+                ? 'bg-amber-600 text-white shadow-md'
+                : 'bg-white text-neutral-700 hover:bg-neutral-100'
+                }`}
             >
               {category}
             </button>
           ))}
         </div>
-        
+
         {/* Filters and Sort */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 bg-white p-4 rounded-xl shadow-sm">
-          <button 
+          <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center gap-2 text-neutral-700 font-medium mb-4 md:mb-0"
           >
@@ -188,10 +200,10 @@ const Products = () => {
             Filter Products
             <ChevronDown className={`h-4 w-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
           </button>
-          
+
           <div className="flex items-center gap-4">
             <span className="text-sm text-neutral-500">Sort by:</span>
-            <select 
+            <select
               value={sortBy}
               onChange={handleSortChange}
               className="bg-neutral-100 border-none rounded-lg py-2 px-4 text-sm focus:ring-2 focus:ring-amber-500"
@@ -203,25 +215,25 @@ const Products = () => {
             </select>
           </div>
         </div>
-        
+
         {/* Extended Filters */}
         {showFilters && (
           <div className="bg-white p-6 rounded-xl shadow-sm mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="font-medium mb-3">Price Range</h3>
               <div className="flex items-center gap-4">
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100000" 
-                  value={priceRange[1]} 
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={priceRange[1]}
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                   className="w-full accent-amber-600"
                 />
                 <span className="text-sm whitespace-nowrap">Up to Rs. {priceRange[1].toLocaleString()}</span>
               </div>
             </div>
-            
+
             <div>
               <h3 className="font-medium mb-3">Material</h3>
               <div className="space-y-2">
@@ -239,7 +251,7 @@ const Products = () => {
                 </label>
               </div>
             </div>
-            
+
             <div>
               <h3 className="font-medium mb-3">Rating</h3>
               <div className="space-y-2">
@@ -269,7 +281,7 @@ const Products = () => {
             </div>
           </div>
         )}
-        
+
         {/* Results Count */}
         <div className="mb-8">
           <p className="text-neutral-600">
@@ -286,7 +298,7 @@ const Products = () => {
             </div>
             <h2 className="text-2xl font-bold mb-2">No products found</h2>
             <p className="text-neutral-600 mb-6">Try adjusting your filters or browse our other categories.</p>
-            <button 
+            <button
               onClick={() => {
                 setSearchParams({});
                 setPriceRange([0, 100000]);
@@ -306,49 +318,47 @@ const Products = () => {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-4 left-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       {product.category}
                     </div>
-                    <button 
+                    <button
                       onClick={(e) => {
                         e.preventDefault();
                         toggleWishlist(product.id);
                       }}
                       className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md hover:bg-neutral-100 transition-colors"
                     >
-                      <Heart className={`h-5 w-5 ${
-                        wishlist.includes(product.id) 
-                          ? "text-red-500 fill-red-500" 
-                          : "text-neutral-400"
-                      }`} />
+                      <Heart className={`h-5 w-5 ${wishlist.includes(product.id)
+                        ? "text-red-500 fill-red-500"
+                        : "text-neutral-400"
+                        }`} />
                     </button>
                   </div>
                 </Link>
-                
+
                 <div className="p-6">
                   <Link to={`/products/${product.id}`} className="block">
                     <h3 className="text-lg font-semibold mb-2 group-hover:text-amber-600 transition-colors">{product.name}</h3>
                   </Link>
-                  
+
                   <div className="flex items-center gap-2 mb-3">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${
-                            i < Math.floor(product.rating)
-                              ? "text-amber-500 fill-amber-500"
-                              : "text-neutral-300"
-                          }`}
+                          className={`h-4 w-4 ${i < Math.floor(product.rating)
+                            ? "text-amber-500 fill-amber-500"
+                            : "text-neutral-300"
+                            }`}
                         />
                       ))}
                     </div>
                     <span className="text-sm text-neutral-500">{product.rating}</span>
                     <span className="text-sm text-neutral-400">({Math.floor(Math.random() * 50) + 10})</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-neutral-900">Rs. {product.price.toLocaleString()}</span>
                     <Link
@@ -363,7 +373,7 @@ const Products = () => {
             ))}
           </div>
         )}
-        
+
         {/* Pagination */}
         {filteredProducts.length > 0 && (
           <div className="mt-12 flex justify-center">

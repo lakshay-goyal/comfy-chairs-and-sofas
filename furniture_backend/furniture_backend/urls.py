@@ -32,6 +32,7 @@ urlpatterns = [
     path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
     path('api/', include('products.urls')),
+    path('api/', include('contact_api.urls')),
 ]
 
 if settings.DEBUG:

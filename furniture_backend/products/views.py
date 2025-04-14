@@ -378,10 +378,17 @@ def frontend_categories(request):
     # Transform to the format expected by the frontend
     transformed_categories = []
     category_images = {
-        'Living Room': 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0',
-        'Bedroom': 'https://images.unsplash.com/photo-1618773928121-c32242e63f39',
-        'Dining Room': 'https://images.unsplash.com/photo-1615968679312-9b7ed9f04e79',
-        'Office': 'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
+        'Director Chair':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744176030/my-sequence-uploads/wcyxo7mlgy6ttwc1gwwh.png',
+        'Executive Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744176164/my-sequence-uploads/pkpcd3tjycmlq9knuxrd.png',
+        'Mesh Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455616/Heeman_Product_Images/xelgogcka4cqggrlqaxb.png',
+        'Computer Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455693/Heeman_Product_Images/i6zbgp6b8he6qtc4mcyl.png',
+        'Visitor Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455736/Heeman_Product_Images/wtbd87o9scf1cl02llix.png',
+        'Restaurant Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455773/Heeman_Product_Images/rmruvnxuk9czzxoss3t8.png',
+        'Lounge Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455864/Heeman_Product_Images/m0pkfscpe6vdgeosazay.png',
+        'Student Chairs':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455935/Heeman_Product_Images/fdvfl6kawkvntkahxxkr.png',
+        'Auditorium Chair':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455961/Heeman_Product_Images/udnc2hxjd8uatytwqvm1.png',
+        'Sofa Series':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744455982/Heeman_Product_Images/weflflfx8do5rqwecvwn.png',
+        'Office Table':'https://res.cloudinary.com/dkiktv5ur/image/upload/v1744456001/Heeman_Product_Images/fp4eqo61copmpo51fkpv.png'
     }
     
     for category in categories:

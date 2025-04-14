@@ -9,11 +9,11 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="relative z-10">
             <h1 className="text-5xl font-serif font-normal mb-6 text-neutral-800">
-              Crafting Comfort Since 1998
+              Heeman Furniture 
             </h1>
             <div className="w-24 h-1 bg-amber-600 mb-8"></div>
             <p className="text-lg text-neutral-600 max-w-2xl leading-relaxed">
-              What began as a small workshop in Jaipur has grown into a passion project that brings 
+              What began as a small workshop in Bhiwadi/Rajasthan has grown into a passion project that brings 
               handcrafted furniture to homes across India. Each piece tells a story of tradition 
               meeting modern living.
             </p>
